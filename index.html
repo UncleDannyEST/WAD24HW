@@ -1,101 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="res/images/favicon.ico">
-    <title>My Dashboard</title>
-  </head>
-  <body>
-
+    <title>Home Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
     <header>
-      <strong>Welcome to your dashboard!</strong>
+        <h1>My Blog</h1>
     </header>
 
-    <section>
-      <div>
-        <img src="res/images/me.png" width="128" height="128" alt="My picture">
-      </div>
-      <div>
-        <ul>
-          <li>Mattias Daum</li>
-          <li>A date following this format dd/mm/yyyy</li>
-          <li>Software Engineering</li>
-        </ul>
-      </div>
-      <div>
-        <strong>2.65</strong>
-      </div>
-    </section>
+    <!-- Main layout container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="nav-item">Home</a></li>
+                    <li><a href="addPost.html" class="nav-item">Add Post</a></li>
+                    <li><a href="login.html" class="nav-item">Login</a></li>
+                </ul>
+            </nav>
+        </aside>
 
-    <section>
-      <h1>Courses</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Course Title</th>
-            <th>Semester</th>
-            <th>Grade</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Agile Software Development</td>
-            <td>Fall</td>
-            <td>82</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Systems Modelling</td>
-            <td>Fall</td>
-            <td>85</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Requirements Engineering</td>
-            <td>Fall</td>
-            <td>99</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Human Computer Interaction</td>
-            <td>Fall</td>
-            <td>65</td>
-          </tr>
-        </tbody>
-      </table>
+        <!-- Main content area -->
+        <main class="content">
+            <button onclick="window.location.href='login.html'" class="login-btn">Login</button>
+            <div class="posts" id="post-list">
+                <!-- Dynamically loaded posts will appear here -->
+            </div>
+        </main>
+    </div>
 
-      <form>
-        <label for="course-title">Course Title:</label><br>
-        <input type="text" id="course-title" name="course-title"><br><br>
-      
-        <label for="semester">Semester:</label><br>
-        <select id="semester" name="semester">
-          <option value="fall">Fall</option>
-          <option value="spring">Spring</option>
-        </select><br><br>
-      
-        <label>Attendance:</label><br>
-        <input type="radio" id="virtual" name="attendance" value="virtual">
-        <label for="virtual">Virtual attendance</label><br>
-        <input type="radio" id="physical" name="attendance" value="physical">
-        <label for="physical">Physical attendance</label><br><br>
-      
-        <input type="submit" value="Submit">
-      </form>
-      
-
-
-    </section>
-
+    <!-- Footer -->
     <footer>
-      <ul>
-        <li><a href="https://ois2.ut.ee/">OIS</a></li>
-        <li><a href="https://courses.cs.ut.ee/">Courses</a></li>
-      </ul>
+        <p>&copy; 2024 My Blog. All Rights Reserved.</p>
     </footer>
 
-  </body>
+    <!-- JavaScript to load posts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const postList = document.getElementById('post-list');
+            const posts = JSON.parse(localStorage.getItem('posts')) || [];
+
+            posts.forEach(post => {
+                const postDiv = document.createElement('div');
+                postDiv.classList.add('post');
+                postDiv.innerHTML = `<h2>${post.title}</h2><p>${post.content}</p>`;
+                postList.appendChild(postDiv);
+            });
+        });
+    </script>
+</body>
 </html>
