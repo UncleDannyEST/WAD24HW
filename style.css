@@ -116,6 +116,27 @@ header h1 {
     margin: 30px auto;
 }
 
+.form-container p{
+    text-align: center;
+    display: block;
+    font-size: 20px;
+    color: #333;
+}
+
+.form-container h2{
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-container a
+{
+    text-decoration: none;
+}
+
+.form-container a:visited{
+    color: inherit;
+}
+
 label {
     font-weight: bold;
     margin-bottom: 10px;
