@@ -48,7 +48,23 @@
             posts.forEach(post => {
                 const postDiv = document.createElement('div');
                 postDiv.classList.add('post');
-                postDiv.innerHTML = `<h2>${post.title}</h2><p>${post.content}</p>`;
+
+                // Create the basic structure of the post
+                postDiv.innerHTML = `
+                    <h2>${post.title}</h2>
+                    <p>${post.content}</p>
+                `;
+
+                // If the post contains an image, create an <img> element and add it
+                if (post.image) {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = post.image;
+                    imgElement.alt = 'Post Image';
+                    imgElement.style.maxWidth = '100%';  // Make sure the image doesn't overflow
+                    imgElement.style.height = 'auto';    // Maintain aspect ratio
+                    postDiv.appendChild(imgElement);
+                }
+
                 postList.appendChild(postDiv);
             });
         });
