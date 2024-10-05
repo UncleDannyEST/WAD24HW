@@ -25,11 +25,15 @@
 
         <div class="content">
             <div class="form-container">
+                <h2>Welcome to PostIt!</h2>
+                <button><a href="">Create an Account</a></button>
+                <p>or please log in:</p>
                 <form action="index.html" method="GET" onsubmit="return validateLogin()">
                     <label for="email">Email:</label>
                     <input type="email" id="email" name="email" required><br><br>
                     <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required><br><br>
+                    <input type="text" id="username" name="username" required><br>
+                    <a href="">Forgot Password?</a><br><br>
                     <button type="submit">Login</button>
                 </form>
             </div>
