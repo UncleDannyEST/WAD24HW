@@ -58,6 +58,12 @@
             const imageInput = document.getElementById('post-image');
             const file = imageInput.files[0];
 
+            // Get the current date in dd/mm/yyyy format
+            const today = new Date();
+            const date = today.getDate().toString().padStart(2, '0') + '/' + 
+                         (today.getMonth() + 1).toString().padStart(2, '0') + '/' + 
+                         today.getFullYear();
+
             // Read the file as a data URL (base64)
             const reader = new FileReader();
 
@@ -67,8 +73,8 @@
                 // Get current posts from localStorage
                 const posts = JSON.parse(localStorage.getItem('posts')) || [];
 
-                // Add new post with image to the array
-                posts.push({ title: title, content: content, image: imageUrl });
+                // Add new post with image and date to the array
+                posts.push({ title: title, content: content, date: date, image: imageUrl });
 
                 // Save updated posts back to localStorage
                 localStorage.setItem('posts', JSON.stringify(posts));
@@ -83,7 +89,7 @@
             } else {
                 // No image provided, save post without an image
                 const posts = JSON.parse(localStorage.getItem('posts')) || [];
-                posts.push({ title: title, content: content, image: null });
+                posts.push({ title: title, content: content, date: date, image: null });
                 localStorage.setItem('posts', JSON.stringify(posts));
                 window.location.href = 'index.html';
             }
