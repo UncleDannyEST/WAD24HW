@@ -40,15 +40,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const postList = document.getElementById('post-list');
-
-            fetch('https://api.jsonbin.io/v3/b/67249a43ad19ca34f8c21328', {
+            // code for fetchin JSON from web
+            /*fetch('https://api.jsonbin.io/v3/b/67249a43ad19ca34f8c21328', {
                 headers: {
                     'X-Master-Key': '$2a$10$iWtK6y3LNldIMiMUXV4Ozu0VdTQTBMNc0ZUH4C92PlB8UDRo1UfJe'  // API key to access json data
                 }
-            })
+            })*/
+           fetch('data.json')
             .then(response => response.json())
             .then(data => {
-                const posts = data.record;  // Adjust according to the structure of your JSON
+                const posts = data // data.record if from web
 
                 posts.forEach(post => {
                     const postDiv = document.createElement('div');
