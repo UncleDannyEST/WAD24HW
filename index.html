@@ -9,26 +9,22 @@
 <body>
     <!-- Header -->
     <header>
-        <h1>My Blog</h1>
+        <h1>Home</h1>
+        
+        <!-- Navigation Links in Header -->
+        <nav>
+            <a href="index.html" class="nav-item">Home</a>
+            <a href="addPost.html" class="nav-item">Add Post</a>
+            <a href="login.html" class="nav-item">Login</a> 
+        </nav>
         <img src="res/images/me.png" alt="Photo">
     </header>
 
     <!-- Main layout container -->
     <div class="main-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <nav>
-                <ul>
-                    <li><a href="index.html" class="nav-item">Home</a></li>
-                    <li><a href="addPost.html" class="nav-item">Add Post</a></li>
-                    <li><a href="login.html" class="nav-item">Login</a></li>
-                </ul>
-            </nav>
-        </aside>
-
+        
         <!-- Main content area -->
         <main class="content">
-            <button onclick="window.location.href='login.html'" class="login-btn">Login</button>
             <div class="posts" id="post-list">
                 <!-- Dynamically loaded posts will appear here -->
             </div>
@@ -44,31 +40,61 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const postList = document.getElementById('post-list');
-            const posts = JSON.parse(localStorage.getItem('posts')) || [];
-
-            posts.forEach(post => {
-                const postDiv = document.createElement('div');
-                postDiv.classList.add('post');
-
-                // Create the basic structure of the post including the date
-                postDiv.innerHTML = `
-                    <h2>${post.title}</h2>
-                    <p><em>Posted on: ${post.date}</em></p>  <!-- Display the post date -->
-                    <p>${post.content}</p>
-                `;
-
-                // If the post contains an image, create an <img> element and add it
-                if (post.image) {
-                    const imgElement = document.createElement('img');
-                    imgElement.src = post.image;
-                    imgElement.alt = 'Post Image';
-                    imgElement.style.maxWidth = '100%';  // Make sure the image doesn't overflow
-                    imgElement.style.height = 'auto';    // Maintain aspect ratio
-                    postDiv.appendChild(imgElement);
+            // code for fetchin JSON from web
+            /*fetch('https://api.jsonbin.io/v3/b/67249a43ad19ca34f8c21328', {
+                headers: {
+                    'X-Master-Key': '$2a$10$iWtK6y3LNldIMiMUXV4Ozu0VdTQTBMNc0ZUH4C92PlB8UDRo1UfJe'  // API key to access json data
                 }
+            })*/
+           fetch('data.json')
+            .then(response => response.json())
+            .then(data => {
+                const posts = data // data.record if from web
 
-                postList.appendChild(postDiv);
-            });
+                posts.forEach(post => {
+                    const postDiv = document.createElement('div');
+                    postDiv.classList.add('post');
+
+                    // Create the basic structure of the post including the date
+                    const profilePic = document.createElement('img');
+                    profilePic.src = 'res/images/me.png';
+                    profilePic.alt = 'Profile Picture';
+                    profilePic.classList.add('profile-picture');
+                    postDiv.appendChild(profilePic);
+
+                    postDiv.innerHTML += `
+                        <h2>${post.author}</h2>
+                        <p><em>Posted on: ${post.creation_date}</em></p>
+                    `;
+
+                    // If the post contains an image, create an <img> element and add it
+                    if (post.image_link) {
+                        const imgElement = document.createElement('img');
+                        imgElement.src = post.image_link;
+                        imgElement.alt = 'Post Image';
+                        imgElement.style.maxWidth = '100%';
+                        imgElement.style.height = 'auto';
+
+                        postDiv.appendChild(imgElement);
+                    }
+
+                    // Add text to the post
+                    postDiv.innerHTML += `
+                        <p>${post.text}</p>
+                    `;
+
+                    // Create the thumbs-up icon and style it
+                    const thumbsUp = document.createElement('img');
+                    thumbsUp.src = 'res/images/thumbsup.jpg';
+                    thumbsUp.alt = 'Thumbs Up';
+                    thumbsUp.classList.add('thumbs-up'); // Add a CSS class for styling
+
+                    
+                    postDiv.appendChild(thumbsUp);  // Add thumbs up to the post
+                    postList.appendChild(postDiv);  // Add post to the post list
+                });
+            })
+            .catch(error => console.error('Error loading posts:', error));
         });
     </script>
 </body>
