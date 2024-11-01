@@ -1,0 +1,62 @@
+[
+    {
+        "author": "Alice",
+        "creation_date": "2024-10-01",
+        "text": "Exploring the beauty of autumn in the mountains!",
+        "image_link": "https://example.com/images/autumn_mountains.jpg"
+    },
+    {
+        "author": "Bob",
+        "creation_date": "2024-10-03",
+        "text": "Loving the new pumpkin spice latte. Fall flavors are the best!",
+        "image_link": null
+    },
+    {
+        "author": "Charlie",
+        "creation_date": "2024-10-05",
+        "text": "Just finished my latest painting. Feeling proud!",
+        "image_link": "https://example.com/images/painting.jpg"
+    },
+    {
+        "author": "Dana",
+        "creation_date": "2024-10-06",
+        "text": "Can't believe how fast this year is flying by.",
+        "image_link": null
+    },
+    {
+        "author": "Evan",
+        "creation_date": "2024-10-07",
+        "text": "Got a new puppy! Meet Rocky!",
+        "image_link": "https://example.com/images/puppy_rocky.jpg"
+    },
+    {
+        "author": "Fiona",
+        "creation_date": "2024-10-08",
+        "text": "Baking apple pie for the first time. Wish me luck!",
+        "image_link": "https://example.com/images/apple_pie.jpg"
+    },
+    {
+        "author": "George",
+        "creation_date": "2024-10-10",
+        "text": "Attended an amazing jazz concert last night!",
+        "image_link": null
+    },
+    {
+        "author": "Hannah",
+        "creation_date": "2024-10-11",
+        "text": "Sunsets by the beach are simply magical.",
+        "image_link": "https://example.com/images/beach_sunset.jpg"
+    },
+    {
+        "author": "Irene",
+        "creation_date": "2024-10-13",
+        "text": "Learning to code, and it's both challenging and exciting!",
+        "image_link": null
+    },
+    {
+        "author": "Jack",
+        "creation_date": "2024-10-14",
+        "text": "Finally completed my first marathon! What an experience!",
+        "image_link": "https://example.com/images/marathon_finish.jpg"
+    }
+]

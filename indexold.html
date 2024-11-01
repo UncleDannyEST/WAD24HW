@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Home</h1>
+        
+        <!-- Navigation Links in Header -->
+        <nav>
+            <a href="index.html" class="nav-item">Home</a>
+            <a href="addPost.html" class="nav-item">Add Post</a>
+            <a href="login.html" class="nav-item">Login</a> 
+        </nav>
+        <img src="res/images/me.png" alt="Photo">
+    </header>
+
+    <!-- Main layout container -->
+    <div class="main-container">
+
+        <!-- Main content area -->
+        <main class="content">
+            <button onclick="window.location.href='login.html'" class="login-btn">Login</button>
+            <div class="posts" id="post-list">
+                <!-- Dynamically loaded posts will appear here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; WAD2024 Group BH. All Rights Reserved.</p>
+    </footer>
+
+    <!-- JavaScript to load posts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const postList = document.getElementById('post-list');
+            const posts = JSON.parse(localStorage.getItem('posts')) || [];
+
+            posts.forEach(post => {
+                const postDiv = document.createElement('div');
+                postDiv.classList.add('post');
+
+                // Create the basic structure of the post including the date
+                postDiv.innerHTML = `
+                    <h2>${post.title}</h2>
+                    <p><em>Posted on: ${post.date}</em></p>  <!-- Display the post date -->
+                    <p>${post.content}</p>
+                `;
+
+                // If the post contains an image, create an <img> element and add it
+                if (post.image) {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = post.image;
+                    imgElement.alt = 'Post Image';
+                    imgElement.style.maxWidth = '100%';  // Make sure the image doesn't overflow
+                    imgElement.style.height = 'auto';    // Maintain aspect ratio
+                    postDiv.appendChild(imgElement);
+                }
+
+                postList.appendChild(postDiv);
+            });
+        });
+    </script>
+</body>
+</html>
