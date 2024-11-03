@@ -256,16 +256,6 @@ html, body {
     width: 24px;   /* Small icon size */
     height: 24px;
 }
-.profile-picture {
-    position: sticky;
-    left: 15px;
-    top: 15px;
-    width: 30px;  /* Adjust as needed for profile picture size */
-    height: 30px;
-    border-radius: 50%;  /* Makes the image round */
-    margin-right: 10px;  /* Space between the image and text */
-    vertical-align: middle;
-}
 
 /* Footer Styles */
 footer {
