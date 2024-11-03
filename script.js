@@ -79,6 +79,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 const postContent = document.createElement('p');
                 postContent.textContent = post.text;
 
+                const profilePic = document.createElement('img');
+                profilePic.src = 'res/images/me.png';
+                profilePic.alt = 'Profile Picture';
+                profilePic.classList.add('profile-picture');
+                postDiv.appendChild(profilePic);
+
+                postDiv.appendChild(postTitle);
+                postDiv.appendChild(postDate);
+
                 if (post.image_link) {
                     const postImage = document.createElement('img');
                     postImage.src = post.image_link;
@@ -87,9 +96,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     postDiv.appendChild(postImage);
                 }
 
-                postDiv.appendChild(postTitle);
-                postDiv.appendChild(postDate);
+                
                 postDiv.appendChild(postContent);
+                // Create the thumbs-up icon and style it
+                const thumbsUp = document.createElement('img');
+                thumbsUp.src = 'res/images/thumbsup.jpg';
+                thumbsUp.alt = 'Thumbs Up';
+                thumbsUp.classList.add('thumbs-up');
+
+                
+                postDiv.appendChild(thumbsUp); 
                 postList.appendChild(postDiv);
             });
         })
