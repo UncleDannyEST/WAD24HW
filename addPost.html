@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
+    <header class="sticky-header">
         <h1>Add Post</h1>
         
         <!-- Navigation Links in Header -->
@@ -16,29 +16,39 @@
             <a href="addPost.html" class="nav-item">Add Post</a>
             <a href="login.html" class="nav-item">Login</a> 
         </nav>
-        <img src="res/images/me.png" alt="Photo">
+
+        <!-- Profile and Dropdown Menu -->
+        <div class="profile-container">
+            <img
+                src="res/images/Favicon.ico"
+                alt="Profile Picture"
+                class="profile-picture"
+                onclick="toggleDropdown()"
+            />
+            <!-- Dropdown Menu -->
+            <div id="dropdownMenu" class="dropdown-menu">
+                <p class="user-name">User Name</p>
+                <p class="user-email">user@example.com</p>
+                <a href="logout.html" class="logout-button">Logout</a>
+            </div>
+        </div>
     </header>
 
     <div class="main-container">
-        
+        <div class="content form-container">
+            <h2>Create a New Post</h2>
+            <form id="postForm" enctype="multipart/form-data">
+                <label for="post-title">Post Title</label>
+                <input type="text" id="post-title" name="post-title" required>
 
-        <div class="content">
-            <div class="form-container">
-                <!-- Update the form to support file upload -->
-                <form id="postForm" enctype="multipart/form-data">
-                    <label for="post-title">Post Title:</label>
-                    <input type="text" id="post-title" name="post-title" required><br><br>
+                <label for="post-content">Post Content</label>
+                <textarea id="post-content" name="post-content" rows="6" required></textarea>
 
-                    <label for="post-content">Post Content:</label><br>
-                    <textarea id="post-content" name="post-content" rows="4" cols="50" required></textarea><br><br>
+                <label for="post-image">Upload Image</label>
+                <input type="file" id="post-image" name="post-image" accept="image/*">
 
-                    <!-- Add a file input for image upload -->
-                    <label for="post-image">Upload Image:</label>
-                    <input type="file" id="post-image" name="post-image" accept="image/*"><br><br>
-
-                    <button type="submit">Add Post</button>
-                </form>
-            </div>
+                <button type="submit" class="btn-primary">Add Post</button>
+            </form>
         </div>
     </div>
 
@@ -46,52 +56,7 @@
         <p>&copy; WAD2024 Group BH. All Rights Reserved.</p>
     </footer>
 
-    <!-- JavaScript to save posts and image -->
-    <script>
-        document.getElementById('postForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const title = document.getElementById('post-title').value;
-            const content = document.getElementById('post-content').value;
-            const imageInput = document.getElementById('post-image');
-            const file = imageInput.files[0];
-
-            // Get the current date in dd/mm/yyyy format
-            const today = new Date();
-            const date = today.getDate().toString().padStart(2, '0') + '/' + 
-                         (today.getMonth() + 1).toString().padStart(2, '0') + '/' + 
-                         today.getFullYear();
-
-            // Read the file as a data URL (base64)
-            const reader = new FileReader();
-
-            reader.onload = function (event) {
-                const imageUrl = event.target.result;
-
-                // Get current posts from localStorage
-                const posts = JSON.parse(localStorage.getItem('posts')) || [];
-
-                // Add new post with image and date to the array
-                posts.push({ title: title, content: content, date: date, image: imageUrl });
-
-                // Save updated posts back to localStorage
-                localStorage.setItem('posts', JSON.stringify(posts));
-
-                // Redirect to the home page
-                window.location.href = 'index.html';
-            };
-
-            if (file) {
-                // If there's an image, read it
-                reader.readAsDataURL(file);
-            } else {
-                // No image provided, save post without an image
-                const posts = JSON.parse(localStorage.getItem('posts')) || [];
-                posts.push({ title: title, content: content, date: date, image: null });
-                localStorage.setItem('posts', JSON.stringify(posts));
-                window.location.href = 'index.html';
-            }
-        });
-    </script>
+    <!-- Link to external JavaScript file -->
+    <script src="script.js"></script>
 </body>
 </html>

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
+    <header class="sticky-header">
         <h1>Login</h1>
         
         <!-- Navigation Links in Header -->
@@ -16,41 +16,48 @@
             <a href="addPost.html" class="nav-item">Add Post</a>
             <a href="login.html" class="nav-item">Login</a> 
         </nav>
-        <img src="res/images/me.png" alt="Photo">
+
+        <!-- Profile and Dropdown Menu -->
+        <div class="profile-container">
+            <img
+                src="res/images/Favicon.ico"
+                alt="Profile Picture"
+                class="profile-picture"
+                onclick="toggleDropdown()"
+            />
+            <!-- Dropdown Menu -->
+            <div id="dropdownMenu" class="dropdown-menu">
+                <p class="user-name">User Name</p>
+                <p class="user-email">user@example.com</p>
+                <a href="logout.html" class="logout-button">Logout</a>
+            </div>
+        </div>
     </header>
 
     <div class="main-container">
-        <div class="content">
-            <div class="form-container">
-                <h2>Welcome to PostIt!</h2>
-                <button><a href="">Create an Account</a></button>
-                <p>or please log in:</p>
-                <form action="index.html" method="GET" onsubmit="return validateLogin()">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required><br><br>
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required><br>
-                    <a href="">Forgot Password?</a><br><br>
-                    <button type="submit">Login</button>
-                </form>
-            </div>
+        <div class="content form-container">
+            <h2>Welcome Back</h2>
+            <p>Please log in to continue:</p>
+            <form action="index.html" method="GET" onsubmit="return validateLogin()">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+
+                <a href="#" class="forgot-password">Forgot Password?</a>
+
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+            <p class="sign-up-prompt">Don’t have an account? <a href="#">Create one here</a>.</p>
         </div>
     </div>
-
-    <script>
-        function validateLogin() {
-            const email = document.getElementById('email').value;
-            const username = document.getElementById('username').value;
-            if (email === '' || username === '') {
-                alert('Both fields are required.');
-                return false;
-            }
-            return true;
-        }
-    </script>
 
     <footer>
         <p>&copy; WAD2024 Group BH. All Rights Reserved.</p>
     </footer>
+
+    <!-- Link to external JavaScript file -->
+    <script src="script.js"></script>
 </body>
 </html>

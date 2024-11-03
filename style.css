@@ -1,110 +1,247 @@
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
 /* General Styles */
-body {
-    font-family: 'Roboto', sans-serif;
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    background-color: #f0f2f5;
-    color: #333;
 }
 
-/* Header Styles */
-header {
+html, body {
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sticky Header */
+.sticky-header {
     background-color: #1a73e8;
     color: white;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width:100%;
-}
-header nav {
-    display:inline-flex
-}
-
-header h1 {
-    font-size: 2.5rem;
-    margin: 0;
-}
-
-header img{
-    width: 3rem;
-    height: auto;
-}
-/* Footer Styles */
-footer {
-    background-color: #1a73e8;
-    color: white;
-    text-align: center;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    position: relative;
-    bottom: 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
     width: 100%;
+    z-index: 1000;
+}
+
+.sticky-header h1 {
+    font-size: 1.5rem;
+    margin: 0;
+    line-height: 1;
+}
+
+/* Navigation Links */
+.sticky-header nav {
+    display: flex;
+    gap: 10px;
 }
 
 .nav-item {
     color: white;
     text-decoration: none;
-    padding: 15px;
-    display: flex;
+    padding: 5px 10px;
     border-radius: 5px;
-    font-size: 1.1rem;
-    background-color: transparent;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
 }
 
 .nav-item:hover {
     background-color: #1abc9c;
-    transform: scale(1.05);
+}
+
+/* Profile Picture and Dropdown */
+.profile-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.profile-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+/* Dropdown Menu Styling */
+.dropdown-menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    right: 0;
+    top: 60px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    min-width: 150px;
+    z-index: 1000;
+}
+
+.dropdown-menu p,
+.dropdown-menu a {
+    margin: 0;
+    padding: 8px 0;
+    color: #333;
+    text-align: center;
+}
+
+.user-name {
+    font-weight: bold;
+}
+
+.user-email {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+.logout-button {
+    display: block;
+    margin-top: 10px;
+    padding: 8px;
+    background-color: #1a73e8;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #0d47a1;
+}
+
+/* Show dropdown when active */
+.show-dropdown {
+    display: block;
 }
 
 /* Main Layout */
 .main-container {
+    flex: 1;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    width: 100%;
 }
 
 /* Content Area */
 .content {
-    flex: 1;
-    padding: 30px;
-    padding-left: 200px;
-    padding-right: 200px;
-    margin-left: 20px;
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
 }
 
+/* Form Container Styling */
+.form-container {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: auto;
+    text-align: left;
+}
+
+.form-container h2 {
+    font-size: 1.6rem;
+    color: #1a73e8;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-container label {
+    font-weight: 500;
+    color: #333;
+    margin-top: 15px;
+}
+
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"],
+.form-container textarea,
+.form-container input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.form-container textarea {
+    resize: vertical;
+}
+
+.form-container .forgot-password,
+.sign-up-prompt a {
+    color: #1a73e8;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.form-container .forgot-password:hover,
+.sign-up-prompt a:hover {
+    text-decoration: underline;
+}
+
+/* Primary Button Styling */
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0d47a1;
+}
+
+/* Centered Sign-Up Prompt */
+.sign-up-prompt {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+/* Post and Form Containers */
 .posts {
-    display: flex;
-    flex-direction: column; /* makes posts vertical */
-    grid-template-columns: 1fr;
-    gap: 30px;
-    margin-top: 30px;
+    display: grid;
+    width: 100%;
+    gap: 20px;
 }
 
 .post {
-    position: relative;
     background-color: white;
-    padding: 25px;
+    padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    transition: box-shadow 0.3s ease;
 }
 
 .post:hover {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    transform: translateY(-5px);
 }
 
 .post h2 {
     color: #1a73e8;
-    font-size: 1.8rem;
-    margin-bottom: 15px;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
 }
 
 .post p {
@@ -112,123 +249,17 @@ footer {
     line-height: 1.6;
     color: #555;
 }
+
 .thumbs-up {
-    position: absolute;
-    bottom: 15px;  /* Position it 10px from the bottom */
-    left: 15px;    /* Position it 10px from the left */
-    width: 24px;   /* Small icon size */
+    width: 24px;
     height: 24px;
-}
-.profile-picture {
-    position: absolute;
-    left: 15px;
-    top: 15px;
-    width: 30px;  /* Adjust as needed for profile picture size */
-    height: 30px;
-    border-radius: 50%;  /* Makes the image round */
-    margin-right: 10px;  /* Space between the image and text */
-    vertical-align: middle;
-}
-
-/* Form Styles */
-.form-container {
-    background-color: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 30px;
-    max-width: 600px;
-    margin: 30px auto;
-}
-
-.form-container p{
-    text-align: center;
-    display: block;
-    font-size: 20px;
-    color: #333;
-}
-
-.form-container h2{
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.form-container a
-{
-    text-decoration: none;
-}
-
-.form-container a:visited{
-    color: inherit;
-}
-
-label {
-    font-weight: bold;
-    margin-bottom: 10px;
-    display: block;
-    font-size: 1.1rem;
-    color: #333;
-}
-
-input[type="text"], input[type="email"], textarea {
-    width: 100%;
-    padding: 15px;
     margin-top: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-    background-color: #f9fafb;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-input:focus, textarea:focus {
-    border-color: #1a73e8;
-    box-shadow: 0 0 5px rgba(26, 115, 232, 0.2);
-}
-
-button {
+/* Footer Styles */
+footer {
     background-color: #1a73e8;
     color: white;
-    border: none;
-    padding: 15px 25px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1.1rem;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    display: block;
-    margin: 0 auto;
-}
-
-button:hover {
-    background-color: #0d47a1;
-    transform: translateY(-2px);
-}
-
-.login-btn {
-    background-color: #1abc9c;
-    color: white;
-    padding: 15px 25px;
-    font-size: 1.2rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 20px;
-}
-
-.login-btn:hover {
-    background-color: #16a085;
-}
-
-/* Flexbox for responsiveness */
-@media (min-width: 768px) {
-    .posts {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (min-width: 1024px) {
-    .posts {
-        grid-template-columns: repeat(3, 1fr);
-    }
+    text-align: center;
+    padding: 10px 0;
 }
