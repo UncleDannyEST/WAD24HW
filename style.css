@@ -6,14 +6,19 @@
 }
 
 html, body {
-    height: auto; /* Allow body height to grow with content */
-    min-height: 100%; /* Ensures body height fills at least the viewport */
+    height: 100%;
+    margin: 0;
     font-family: 'Roboto', sans-serif;
     background-color: #f0f2f5;
     color: #333;
-    overflow-x: hidden; /* Prevent horizontal overflow */
-    overflow: visible;
+    overflow-x: hidden;
 }
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 
 /* Sticky Header */
 .sticky-header {
@@ -132,6 +137,7 @@ html, body {
     padding: 15px;
     width: 100%;
 }
+
 
 /* Content Area */
 .content {
@@ -263,4 +269,7 @@ footer {
     color: white;
     text-align: center;
     padding: 10px 0;
+    margin-top: auto; /* Pushes footer to the bottom */
+    width: 100%;
 }
+
