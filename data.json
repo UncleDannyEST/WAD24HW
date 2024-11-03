@@ -1,60 +1,70 @@
 [
     {
         "author": "Alice",
+        "profile": "res/images/profiles/alice.jpg",
         "creation_date": "2024-10-01",
         "text": "Exploring the beauty of autumn in the mountains!",
         "image_link": "https://worldwildschooling.com/wp-content/uploads/2024/01/Matterhorn_Mumemories_Adobe-Stock-Photo_682931585-1536x864.jpg"
     },
     {
         "author": "Bob",
+        "profile": "res/images/profiles/bob.jpg",
         "creation_date": "2024-10-03",
         "text": "Loving the new pumpkin spice latte. Fall flavors are the best!",
         "image_link": null
     },
     {
         "author": "Charlie",
+        "profile": "res/images/profiles/charlie.jpg",
         "creation_date": "2024-10-05",
         "text": "Just finished my latest painting. Feeling proud!",
         "image_link": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3Fep2BurdQJlxAU1wUTZWxycfOz09CDepkw&s"
     },
     {
         "author": "Dana",
+        "profile": "res/images/profiles/dana.jpg",
         "creation_date": "2024-10-06",
         "text": "Can't believe how fast this year is flying by.",
         "image_link": null
     },
     {
         "author": "Evan",
+        "profile": "res/images/profiles/evan.jpg",
         "creation_date": "2024-10-07",
         "text": "Got a new puppy! Meet Rocky!",
         "image_link": "https://media.4-paws.org/f/3/9/1/f39115c5c798651f95141c37b692f76b669af761/VIER%20PFOTEN_2019-03-15_001-2886x1999-1920x1330.webp"
     },
     {
         "author": "Fiona",
+        "profile": "res/images/profiles/fiona.jpg",
         "creation_date": "2024-10-08",
         "text": "Baking apple pie for the first time. Wish me luck!",
         "image_link": "https://www.recipetineats.com/tachyon/2022/11/Apple-Pie_8.jpg"
     },
     {
         "author": "George",
+        "profile": "res/images/profiles/george.jpg",
         "creation_date": "2024-10-10",
         "text": "Attended an amazing jazz concert last night!",
         "image_link": null
     },
     {
         "author": "Hannah",
+        "profile": "res/images/profiles/hannah.jpg",
         "creation_date": "2024-10-11",
         "text": "Sunsets by the beach are simply magical.",
         "image_link": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHHosEL4A2uC8ncP6RnDDGMULMgy0cXnnEHA&s"
     },
     {
         "author": "Irene",
+        "profile": "res/images/profiles/irene.jpg",
         "creation_date": "2024-10-13",
         "text": "Learning to code, and it's both challenging and exciting!",
         "image_link": null
     },
     {
         "author": "Jack",
+        "profile": "res/images/profiles/jack.jpg",
         "creation_date": "2024-10-14",
         "text": "Finally completed my first marathon! What an experience!",
         "image_link": "https://i.insider.com/5da1a45a695b5841f16ee2f6?width=700"

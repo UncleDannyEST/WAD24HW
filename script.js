@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 postContent.textContent = post.text;
 
                 const profilePic = document.createElement('img');
-                profilePic.src = 'res/images/me.png';
+                profilePic.src = post.profile;
                 profilePic.alt = 'Profile Picture';
                 profilePic.classList.add('profile-picture');
                 postDiv.appendChild(profilePic);
