@@ -7,23 +7,37 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header -->
-    <header>
+
+    <!-- Sticky Header with Dropdown Menu -->
+    <header class="sticky-header">
         <h1>Home</h1>
         
-        <!-- Navigation Links in Header -->
+        <!-- Navigation Links -->
         <nav>
             <a href="index.html" class="nav-item">Home</a>
             <a href="addPost.html" class="nav-item">Add Post</a>
-            <a href="login.html" class="nav-item">Login</a> 
+            <a href="login.html" class="nav-item">Login</a>
         </nav>
-        <img src="res/images/me.png" alt="Photo">
+
+        <!-- Profile and Dropdown Menu -->
+        <div class="profile-container">
+            <img
+                src="res/images/Favicon.ico"
+                alt="Profile Picture"
+                class="profile-picture"
+                onclick="toggleDropdown()"
+            />
+            <!-- Dropdown Menu -->
+            <div id="dropdownMenu" class="dropdown-menu">
+                <p class="user-name">User Name</p>
+                <p class="user-email">user@example.com</p>
+                <a href="logout.html" class="logout-button">Logout</a>
+            </div>
+        </div>
     </header>
 
-    <!-- Main layout container -->
+    <!-- Main Content -->
     <div class="main-container">
-        
-        <!-- Main content area -->
         <main class="content">
             <div class="posts" id="post-list">
                 <!-- Dynamically loaded posts will appear here -->
@@ -36,66 +50,7 @@
         <p>&copy; WAD2024 Group BH. All Rights Reserved.</p>
     </footer>
 
-    <!-- JavaScript to load posts -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const postList = document.getElementById('post-list');
-            // code for fetchin JSON from web
-            /*fetch('https://api.jsonbin.io/v3/b/67249a43ad19ca34f8c21328', {
-                headers: {
-                    'X-Master-Key': '$2a$10$iWtK6y3LNldIMiMUXV4Ozu0VdTQTBMNc0ZUH4C92PlB8UDRo1UfJe'  // API key to access json data
-                }
-            })*/
-           fetch('data.json')
-            .then(response => response.json())
-            .then(data => {
-                const posts = data // data.record if from web
-
-                posts.forEach(post => {
-                    const postDiv = document.createElement('div');
-                    postDiv.classList.add('post');
-
-                    // Create the basic structure of the post including the date
-                    const profilePic = document.createElement('img');
-                    profilePic.src = 'res/images/me.png';
-                    profilePic.alt = 'Profile Picture';
-                    profilePic.classList.add('profile-picture');
-                    postDiv.appendChild(profilePic);
-
-                    postDiv.innerHTML += `
-                        <h2>${post.author}</h2>
-                        <p><em>Posted on: ${post.creation_date}</em></p>
-                    `;
-
-                    // If the post contains an image, create an <img> element and add it
-                    if (post.image_link) {
-                        const imgElement = document.createElement('img');
-                        imgElement.src = post.image_link;
-                        imgElement.alt = 'Post Image';
-                        imgElement.style.maxWidth = '100%';
-                        imgElement.style.height = 'auto';
-
-                        postDiv.appendChild(imgElement);
-                    }
-
-                    // Add text to the post
-                    postDiv.innerHTML += `
-                        <p>${post.text}</p>
-                    `;
-
-                    // Create the thumbs-up icon and style it
-                    const thumbsUp = document.createElement('img');
-                    thumbsUp.src = 'res/images/thumbsup.jpg';
-                    thumbsUp.alt = 'Thumbs Up';
-                    thumbsUp.classList.add('thumbs-up'); // Add a CSS class for styling
-
-                    
-                    postDiv.appendChild(thumbsUp);  // Add thumbs up to the post
-                    postList.appendChild(postDiv);  // Add post to the post list
-                });
-            })
-            .catch(error => console.error('Error loading posts:', error));
-        });
-    </script>
+    <!-- Link to external JavaScript file -->
+    <script src="script.js"></script>
 </body>
 </html>
