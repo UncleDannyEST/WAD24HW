@@ -7,50 +7,21 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <!-- Sticky Header with Dropdown Menu -->
-    <header class="sticky-header">
-        <h1>Home</h1>
-        
-        <!-- Navigation Links -->
-        <nav>
-            <a href="index.html" class="nav-item">Home</a>
-            <a href="addPost.html" class="nav-item">Add Post</a>
-            <a href="login.html" class="nav-item">Login</a>
-        </nav>
-
-        <!-- Profile and Dropdown Menu -->
-        <div class="profile-container">
-            <img
-                src="res/images/Favicon.ico"
-                alt="Profile Picture"
-                class="profile-picture"
-                onclick="toggleDropdown()"
-            />
-            <!-- Dropdown Menu -->
-            <div id="dropdownMenu" class="dropdown-menu">
-                <p class="user-name">User Name</p>
-                <p class="user-email">user@example.com</p>
-                <a href="index.html" class="logout-button">Logout</a>
-            </div>
-        </div>
-    </header>
+    <!-- Placeholder for Header -->
+    <div id="header"></div>
 
     <!-- Main Content -->
     <div class="main-container">
         <main class="content">
-            <div class="posts" id="post-list">
-                <!-- Dynamically loaded posts will appear here -->
-            </div>
+            <div id="post-list"></div>
+            <!-- Add the Reset Likes Button -->
+            <button id="reset-likes" class="btn-primary">Reset All Likes</button>
         </main>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; WAD2024 Group BH. All Rights Reserved.</p>
-    </footer>
+    <!-- Placeholder for Footer -->
+    <div id="footer"></div>
 
-    <!-- Link to external JavaScript file -->
     <script src="script.js"></script>
 </body>
 </html>
