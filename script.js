@@ -1,4 +1,5 @@
 // Load Header Component
+/*
 fetch('components/header.html')
     .then(response => response.text())
     .then(data => {
@@ -13,6 +14,8 @@ fetch('components/footer.html')
         document.getElementById('footer').innerHTML = data;
     })
     .catch(error => console.error('Error loading footer:', error));
+*/
+
 
 // Variables
 const postList = document.getElementById('post-list');
