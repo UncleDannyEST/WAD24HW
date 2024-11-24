@@ -15,7 +15,7 @@
     display: flex;
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
-    background-color: #f8f9fa; /* Optional: Background color */
+    background-color: #1a73e8; /* Optional: Background color */
     padding: 20px; /* Padding inside the footer */
     box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1); /* Optional: Shadow at the top for styling */
     position: fixed; /* Keeps the footer fixed at the bottom */
