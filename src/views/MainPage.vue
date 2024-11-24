@@ -1,7 +1,7 @@
 <template>
   <div class="main-page">
     <h1>Blog Posts</h1>
-    
+
     <div class="posts">
       <Post
         v-for="post in posts"
@@ -31,8 +31,7 @@ export default {
     ...mapActions(['resetLikes', 'loadPosts']),
   },
   created() {
-    // Dispatch the loadPosts action to load data from the JSON file
-    this.loadPosts();
+    this.loadPosts(); // Load posts on component creation
   },
 };
 </script>
