@@ -22,7 +22,7 @@
     flex-direction: column; /* Stack elements vertically */
     justify-content: center; /* Center vertically */
     align-items: center; /* Center horizontally */
-    background-color: #f8f9fa; /* Optional: Background color */
+    background-color: #1a73e8; /* Optional: Background color */
     padding: 20px; /* Optional: Padding */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Optional: Shadow for styling */
     position: sticky; /* Stick to the top of the page */
