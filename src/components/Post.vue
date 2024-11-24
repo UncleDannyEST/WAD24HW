@@ -4,7 +4,12 @@
       <p>{{ post.text }}</p>
       <img v-if="post.image_link" :src="post.image_link" alt="Post Image" />
       <p>Likes: {{ post.likes }}</p>
-      <button @click="likePost">Like</button>
+      <img 
+        src="thumbsup.jpg" 
+        alt="Like"
+        @click="likePost"
+        class="like-button"
+      />
     </div>
   </template>
   
