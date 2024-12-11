@@ -1,33 +1,25 @@
 <template>
-    <div class="footer">
-      <p>&copy; WAD2024 Group BH. All Rights Reserved.</p>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'FooterComponent',
-  };
-  </script>
-  
-  <style>
-  .footer {
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    background-color: #1a73e8; /* Optional: Background color */
-    padding: 20px; /* Padding inside the footer */
-    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1); /* Optional: Shadow at the top for styling */
-    position: static; /* Keeps the footer fixed at the bottom */
-    bottom: 0; /* Aligns it to the bottom of the page */
-    width: 100%; /* Ensures it spans the full width of the page */
-    z-index: 10; /* Ensures it stays above other content */
-  }
-  
-  .footer p {
-    margin: 0; /* Remove default margin */
-    font-size: 14px; /* Adjust font size if needed */
-    color: #333; /* Text color */
-  }
-  </style>
-  
+  <footer class="footer">
+    <p>&copy; 2024 WAD2024 Group BH. All Rights Reserved.</p>
+  </footer>
+</template>
+
+<script>
+export default {
+  name: 'FooterComponent',
+};
+</script>
+
+<style scoped>
+.footer {
+  position: static; /* Stays at the bottom of the viewport */
+  bottom: 0;
+  width: 100%;
+  background-color: #1a73e8;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  z-index: 1000; /* Ensure it stays above other elements */
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+}
+</style>

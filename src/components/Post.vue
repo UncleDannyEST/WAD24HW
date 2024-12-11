@@ -3,8 +3,8 @@
     <h3>{{ post.author }}</h3>
     <p>{{ post.text }}</p>
     <img v-if="post.image_link" :src="post.image_link" alt="Post Image" />
-    <p>Likes: {{ post.likes }}</p>
-    <p class="post-date">Posted on: {{ formattedDate }}</p> <!-- Display formatted date -->
+    <p>Likes: {{ post.likes || 0 }}</p>
+    <p class="post-date">Posted on: {{ formattedDate }}</p>
     <img 
       src="thumbsup.jpg" 
       alt="Like"
@@ -16,17 +16,16 @@
 
 <script>
 export default {
-  props: ['post'], // Receive the post object as a prop
+  props: ['post'],
   computed: {
-    // Format the date to a readable format
     formattedDate() {
       const date = new Date(this.post.creation_date);
-      return date.toLocaleDateString(); // This will format the date based on the user's locale
+      return date.toLocaleDateString();
     },
   },
   methods: {
     likePost() {
-      this.$store.dispatch('likePost', this.post.id);
+      this.post.likes = (this.post.likes || 0) + 1;
     },
   },
 };

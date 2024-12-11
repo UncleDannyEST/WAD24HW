@@ -1,8 +1,8 @@
 <template>
-  <div class="login-page">
+  <div class="signup-page">
     <div class="form-container">
-      <h2>Welcome Back</h2>
-      <form @submit.prevent="handleLogin">
+      <h2>Sign Up</h2>
+      <form @submit.prevent="signup">
         <div class="form-group">
           <label for="email">Email:</label>
           <input id="email" type="email" placeholder="Enter your email" v-model="email" required />
@@ -10,10 +10,10 @@
         <div class="form-group">
           <label for="password">Password:</label>
           <input id="password" type="password" placeholder="Enter your password" v-model="password" required />
+          <small>Password must be at least 6 characters long.</small>
         </div>
-        <button type="submit" class="btn-primary">Login</button>
+        <button type="submit" class="btn-primary">Sign Up</button>
       </form>
-      <button @click="$router.push('/signup')" class="btn-secondary">Go to Signup</button>
     </div>
   </div>
 </template>
@@ -29,11 +29,11 @@ export default {
     };
   },
   methods: {
-    handleLogin() {
+    signup() {
       try {
-        authService.login(this.email, this.password);
-        alert('Login successful!');
-        this.$router.push('/'); // Redirect to main page
+        authService.register(this.email, this.password);
+        alert('Account created successfully! You can now log in.');
+        this.$router.push('/login'); // Redirect to login page
       } catch (error) {
         alert(error.message); // Display error message
       }
@@ -42,67 +42,53 @@ export default {
 };
 </script>
 
+
 <style scoped>
-.login-page {
+.signup-page {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   min-height: 100vh;
   background-color: #f4f4f9;
 }
-
 .form-container {
   background-color: white;
-  padding: 20px;
+  padding: 30px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   width: 400px;
   text-align: center;
 }
-
+h2 {
+  margin-bottom: 10px;
+  color: #1a73e8;
+}
 .form-group {
   margin-bottom: 15px;
   text-align: left;
 }
-
 input {
   width: 100%;
   padding: 10px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   border-radius: 5px;
 }
-
+small {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.85em;
+  color: #777;
+}
 .btn-primary {
   background-color: #1a73e8;
   color: white;
-  padding: 10px 20px;
   border: none;
+  padding: 10px 15px;
   border-radius: 5px;
   cursor: pointer;
+  width: 100%;
 }
-
 .btn-primary:hover {
-  background-color: #155db2;
-}
-
-.btn-secondary {
-  background-color: gray;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  margin-top: 10px;
-  cursor: pointer;
-}
-
-.btn-secondary:hover {
-  background-color: darkgray;
-}
-
-.error {
-  color: red;
-  margin-top: 10px;
+  background-color: #155cbc;
 }
 </style>

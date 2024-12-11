@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <HeaderComponent />
+    <header-component />
     <router-view />
-    <FooterComponent />
+    <footer-component />
   </div>
 </template>
 
@@ -11,7 +11,6 @@ import HeaderComponent from './components/header.vue';
 import FooterComponent from './components/footer.vue';
 
 export default {
-  name: 'App',
   components: {
     HeaderComponent,
     FooterComponent,
@@ -19,14 +18,14 @@ export default {
 };
 </script>
 
-  
-  
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f2f5;
-    margin: 0;
-    padding: 0;
-  }
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures the app spans the full viewport height */
+}
+
+router-view {
+  flex: 1; /* Allows the main content to grow and push the footer down */
+}
 </style>
-  

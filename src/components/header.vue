@@ -1,52 +1,79 @@
 <template>
-    <div class="sticky-header">
-      <h1>Our Blog!</h1>
-      <div class="nav-container">
-        <nav>
-          <router-link to="/" class="nav-item">Home</router-link>
-          <router-link to="/login" class="nav-item">Login</router-link>
-        </nav>
-      </div>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'HeaderComponent',
-  };
-  </script>
-  
-  <style>
-  .sticky-header {
-    display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    justify-content: center; /* Center vertically */
-    align-items: center; /* Center horizontally */
-    background-color: #1a73e8; /* Optional: Background color */
-    padding: 20px; /* Optional: Padding */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Optional: Shadow for styling */
-    position: sticky; /* Stick to the top of the page */
-    top: 0; /* Required for sticky positioning */
-    z-index: 10; /* Keep it above other content */
-  }
-  
-  .nav-container {
-    margin-top: 10px; /* Space between the title and navigation */
-  }
-  
-  nav {
-    display: flex;
-    gap: 15px; /* Space between navigation items */
-  }
-  
-  .nav-item {
-    text-decoration: none; /* Remove underline from links */
-    color: #333; /* Default text color */
-    font-weight: bold;
-  }
-  
-  .nav-item:hover {
-    color: #007bff; /* Change color on hover */
-  }
-  </style>
-  
+  <nav class="header">
+    <ul class="nav-links">
+      <li><router-link to="/">Home</router-link></li>
+      <li><router-link to="/contact">Contact</router-link></li>
+      <li v-if="!loginState.isLoggedIn"><router-link to="/signup">Signup</router-link></li>
+      <li v-if="!loginState.isLoggedIn"><router-link to="/login">Login</router-link></li>
+      <li v-if="loginState.isLoggedIn">
+        <button @click="logout" class="logout-btn">Logout</button>
+      </li>
+    </ul>
+  </nav>
+</template>
+
+<script>
+import { loginState, authService } from '@/services/authService';
+
+export default {
+  computed: {
+    loginState() {
+      return loginState; // Use reactive state
+    },
+  },
+  methods: {
+    logout() {
+      authService.logout(); // Perform logout
+      this.$router.push('/login'); // Redirect to login page
+    },
+  },
+};
+</script>
+
+
+<style scoped>
+.header {
+  background-color: #1a73e8;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.nav-links a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+</style>

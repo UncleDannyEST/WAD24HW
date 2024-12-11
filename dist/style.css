@@ -1,0 +1,293 @@
+/* General Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    overflow-x: hidden;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+/* Sticky Header */
+.sticky-header {
+    position: sticky;
+    top: 0;
+    background-color: #1a73e8;
+    color: white;
+    padding: 20px 30px; /* Increase padding for better spacing */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Center content vertically */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 100%;
+}
+
+/* Header Title (h1) */
+.sticky-header h1 {
+    font-size: 2rem; /* Increase font size for better readability */
+    margin: 0;
+    line-height: 1.2;
+    text-align: center;
+}
+
+/* Navigation Links Container */
+.nav-container {
+    display: flex;
+    flex-direction: column; /* Stack nav items vertically */
+    align-items: center; /* Center nav items horizontally */
+    margin-top: 20px; /* Space between h1 and nav links */
+}
+
+/* Individual Navigation Items */
+.nav-item {
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 10px 0;
+    color: white;
+    background-color: #1a73e8;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    width: 200px; /* Control width of buttons */
+    text-align: center;
+}
+
+.nav-item:hover {
+    background-color: #0d47a1;
+}
+
+
+/* Profile Picture and Dropdown */
+.profile-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.profile-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+/* Dropdown Menu Styling */
+.dropdown-menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    right: 0;
+    top: 60px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    min-width: 150px;
+    z-index: 1000;
+}
+
+.dropdown-menu p,
+.dropdown-menu a {
+    margin: 0;
+    padding: 8px 0;
+    color: #333;
+    text-align: center;
+}
+
+.user-name {
+    font-weight: bold;
+}
+
+.user-email {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+.logout-button {
+    display: block;
+    margin-top: 10px;
+    padding: 8px;
+    background-color: #1a73e8;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #0d47a1;
+}
+
+/* Show dropdown when active */
+.show-dropdown {
+    display: block;
+}
+
+/* Main Layout */
+.main-page {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    width: 100%;
+}
+
+.main-page h1 {
+    font-size: 2.5rem;
+    margin-top: 20px;
+    margin-bottom: 20px; 
+    text-align: center;
+}
+
+
+/* Content Area */
+.content {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+}
+
+/* Form Container Styling */
+.form-container {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 40px auto;
+    text-align: left;
+}
+
+.form-container h2 {
+    font-size: 1.6rem;
+    color: #1a73e8;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-container label {
+    font-weight: 500;
+    color: #333;
+    margin-top: 15px;
+}
+
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"],
+.form-container textarea,
+.form-container input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.form-container textarea {
+    resize: vertical;
+}
+
+.form-container .forgot-password,
+.sign-up-prompt a {
+    color: #1a73e8;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.form-container .forgot-password:hover,
+.sign-up-prompt a:hover {
+    text-decoration: underline;
+}
+
+/* Primary Button Styling */
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0d47a1;
+}
+
+/* Centered Sign-Up Prompt */
+.sign-up-prompt {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+/* Post and Form Containers */
+.posts {
+    display: grid;
+    width: 100%;
+    gap: 20px;
+}
+
+.post {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.post:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.post h2 {
+    color: #1a73e8;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.post p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+}
+
+.like-button {
+    left: 15px;  
+    width: 48px;   
+    height: 48px;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #1a73e8;
+    color: white;
+    text-align: center;
+    padding: 20px 30px;
+    margin-top: auto;
+    width: 100%;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
