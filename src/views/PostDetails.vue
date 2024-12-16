@@ -1,39 +1,25 @@
 <template>
   <div class="post-details-page">
-    <div class="form-container">
-      <h2>Edit Post</h2>
-      <form @submit.prevent="saveChanges">
-        <div class="form-group">
-          <label for="author">Author</label>
-          <input
-            id="author"
-            type="text"
-            v-model="post.author"
-            placeholder="Author's name"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="content">Content</label>
-          <textarea
-            id="content"
-            v-model="post.text"
-            placeholder="Post content"
-            required
-          ></textarea>
-        </div>
-        <div class="form-group">
-          <label for="image">Image URL</label>
-          <input
-            id="image"
-            type="text"
-            v-model="post.image_link"
-            placeholder="Image URL"
-          />
-        </div>
-        <button type="submit" class="btn-primary">Save Changes</button>
-        <button @click.prevent="deletePost" class="btn-danger">Delete Post</button>
+    <div v-if="post">
+      <h1>{{ isEditing ? "Edit Post" : post.author }}</h1>
+      <div v-if="!isEditing">
+        <p>{{ post.text }}</p>
+        <img v-if="post.image_link" :src="post.image_link" alt="Post Image" />
+        <p>Likes: {{ post.likes }}</p>
+        <p>Posted on: {{ formattedDate(post.creation_date) }}</p>
+        <button @click="enableEditing" class="btn-edit">Edit Post</button>
+        <button @click="deletePost" class="btn-delete">Delete Post</button>
+      </div>
+      <form v-else @submit.prevent="saveChanges">
+        <input v-model="post.author" placeholder="Author" required />
+        <textarea v-model="post.text" placeholder="Content" required></textarea>
+        <input v-model="post.image_link" placeholder="Image URL" />
+        <button type="submit" class="btn-save">Save Changes</button>
+        <button @click="cancelEditing" class="btn-cancel">Cancel</button>
       </form>
+    </div>
+    <div v-else>
+      <p>Loading post details...</p>
     </div>
   </div>
 </template>
@@ -42,39 +28,101 @@
 export default {
   data() {
     return {
-      post: null, // Placeholder for the post to be edited
+      post: null,
+      isEditing: false,
     };
   },
   created() {
-    const postId = this.$route.params.id;
-    const posts = JSON.parse(localStorage.getItem('posts')) || [];
-    this.post = posts.find((post) => post.id === parseInt(postId));
-    if (!this.post) {
-      alert('Post not found.');
-      this.$router.push('/');
-    }
+    this.fetchPost();
   },
   methods: {
-    saveChanges() {
-      const posts = JSON.parse(localStorage.getItem('posts')) || [];
-      const index = posts.findIndex((p) => p.id === this.post.id);
-      if (index !== -1) {
-        posts[index] = this.post;
-        localStorage.setItem('posts', JSON.stringify(posts));
-        alert('Post updated successfully!');
+    async fetchPost() {
+      const postId = this.$route.params.id; // Get the post ID from the URL
+      console.log(`Fetching post with ID: ${postId}`);
+      try {
+        const response = await fetch(`http://localhost:3000/api/posts/${postId}`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // Add token for authentication
+          },
+        });
+        if (!response.ok) {
+          if (response.status === 401) {
+            alert('Unauthorized. Please log in again.');
+            this.$router.push('/login');
+          } else {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+        }
+        this.post = await response.json();
+      } catch (error) {
+        console.error('Error fetching post:', error);
+        alert('Failed to load the post. Redirecting to main page.');
         this.$router.push('/');
-      } else {
-        alert('Error saving post.');
       }
     },
-    deletePost() {
-      if (confirm('Are you sure you want to delete this post?')) {
-        const posts = JSON.parse(localStorage.getItem('posts')) || [];
-        const updatedPosts = posts.filter((post) => post.id !== this.post.id);
-        localStorage.setItem('posts', JSON.stringify(updatedPosts));
-        alert('Post deleted.');
-        this.$router.push('/');
+    enableEditing() {
+      this.isEditing = true;
+    },
+    cancelEditing() {
+      this.isEditing = false; // Cancel editing mode
+      this.fetchPost(); // Reload the original post details
+    },
+    async saveChanges() {
+      const postId = this.$route.params.id; // Get the post ID
+      try {
+        const response = await fetch(`http://localhost:3000/api/posts/${postId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // Add token for authentication
+          },
+          body: JSON.stringify({
+            author: this.post.author,
+            text: this.post.text,
+            image_link: this.post.image_link,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const updatedPost = await response.json();
+        alert('Post updated successfully!');
+        this.post = updatedPost; // Update the local post object
+        this.isEditing = false; // Exit editing mode
+      } catch (error) {
+        console.error('Error updating post:', error);
+        alert('Failed to update the post.');
       }
+    },
+    async deletePost() {
+      const postId = this.$route.params.id; // Get the post ID
+      if (!confirm('Are you sure you want to delete this post?')) return;
+
+      try {
+        const response = await fetch(`http://localhost:3000/api/posts/${postId}`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // Add token for authentication
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        alert('Post deleted successfully!');
+        this.$router.push('/'); // Redirect to main page after deletion
+      } catch (error) {
+        console.error('Error deleting post:', error);
+        alert('Failed to delete the post.');
+      }
+    },
+    formattedDate(date) {
+      const formatted = new Date(date);
+      return formatted.toLocaleDateString();
     },
   },
 };
@@ -82,65 +130,69 @@ export default {
 
 <style scoped>
 .post-details-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #f4f4f9;
-}
-.form-container {
-  background-color: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 400px;
+  max-width: 600px;
+  margin: 20px auto;
   text-align: center;
 }
-h2 {
-  margin-bottom: 20px;
-  color: #1a73e8;
-}
-.form-group {
-  margin-bottom: 20px;
-  text-align: left;
-}
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-input,
-textarea {
+
+textarea,
+input {
   width: 100%;
+  margin-bottom: 10px;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
-textarea {
-  resize: none;
-  height: 100px;
+
+img {
+  max-width: 100%;
+  margin: 10px 0;
 }
-.btn-primary {
-  background-color: #4caf50;
-  color: white;
+
+.btn-edit,
+.btn-delete,
+.btn-save,
+.btn-cancel {
+  margin: 5px;
+  padding: 10px 20px;
   border: none;
-  padding: 10px 15px;
   border-radius: 5px;
   cursor: pointer;
-  margin-right: 10px;
 }
-.btn-primary:hover {
-  background-color: #43a047;
+
+.btn-edit {
+  background-color: #1a73e8;
+  color: white;
 }
-.btn-danger {
+
+.btn-delete {
   background-color: #f44336;
   color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
 }
-.btn-danger:hover {
+
+.btn-save {
+  background-color: #4caf50;
+  color: white;
+}
+
+.btn-cancel {
+  background-color: gray;
+  color: white;
+}
+
+.btn-edit:hover {
+  background-color: #0d47a1;
+}
+
+.btn-delete:hover {
   background-color: #d32f2f;
+}
+
+.btn-save:hover {
+  background-color: #388e3c;
+}
+
+.btn-cancel:hover {
+  background-color: #757575;
 }
 </style>

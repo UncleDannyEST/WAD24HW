@@ -1,4 +1,5 @@
 import { createStore } from 'vuex';
+import axios from 'axios';
 
 export default createStore({
   state: {
@@ -8,61 +9,51 @@ export default createStore({
     setPosts(state, posts) {
       state.posts = posts;
     },
-    incrementLikes(state, postId) {
-      const post = state.posts.find(post => post.id === postId);
-      if (post) {
-        post.likes++;
+    updatePost(state, updatedPost) {
+      const index = state.posts.findIndex(post => post.id === updatedPost.id);
+      if (index !== -1) {
+        state.posts.splice(index, 1, updatedPost);
       }
-      this.commit('savePostsToLocalStorage');  // Save updated posts to localStorage
     },
     resetLikes(state) {
       state.posts.forEach(post => (post.likes = 0));
-      this.commit('savePostsToLocalStorage');  // Save reset posts to localStorage
-    },
-    savePostsToLocalStorage(state) {
-      // Save posts with likes to localStorage
-      localStorage.setItem('posts', JSON.stringify(state.posts));
     },
   },
   actions: {
     async loadPosts({ commit }) {
       try {
-        // Load data from the 'data.json' file located in the public folder
-        const response = await fetch('/data.json');
-        const posts = await response.json();
-
-        // Add a unique 'id' and 'likes' field to each post
-        const postsWithId = posts.map((post, index) => ({
-          ...post,
-          id: index + 1, // Simple unique ID based on the index
-          likes: 0, // Initialize likes to 0
-        }));
-
-        // Check if we have posts saved in localStorage
-        const savedPosts = localStorage.getItem('posts');
-        if (savedPosts) {
-          const savedPostsData = JSON.parse(savedPosts);
-
-          // Merge the posts with their saved likes from localStorage
-          savedPostsData.forEach(savedPost => {
-            const post = postsWithId.find(p => p.id === savedPost.id);
-            if (post) {
-              post.likes = savedPost.likes;  // Set the likes from localStorage
-            }
-          });
-        }
-
-        // Commit the posts to the store
-        commit('setPosts', postsWithId);
+        // Fetch posts from the backend
+        const response = await axios.get('http://localhost:3000/api/posts');
+        commit('setPosts', response.data);
       } catch (error) {
-        console.error('Error loading posts:', error);
+        console.error('Error loading posts:', error.message);
       }
     },
-    likePost({ commit }, postId) {
-      commit('incrementLikes', postId);
+    async likePost({ commit }, postId) {
+      try {
+        // Send a PUT request to increment likes
+        const response = await axios.put(`http://localhost:3000/api/posts/${postId}/like`);
+        commit('updatePost', response.data); // Update the post in the state
+      } catch (error) {
+        console.error('Error liking post:', error.message);
+      }
     },
-    resetLikes({ commit }) {
-      commit('resetLikes');
+    async resetLikes({ state, commit }) {
+      try {
+        // Reset likes in the backend (if applicable)
+        const resetPromises = state.posts.map(post =>
+          axios.put(`http://localhost:3000/api/posts/${post.id}`, {
+            ...post,
+            likes: 0, // Reset likes to 0
+          })
+        );
+        await Promise.all(resetPromises);
+
+        // Update the state after resetting
+        commit('resetLikes');
+      } catch (error) {
+        console.error('Error resetting likes:', error.message);
+      }
     },
   },
   getters: {

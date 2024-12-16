@@ -6,6 +6,9 @@
       <li v-if="!loginState.isLoggedIn"><router-link to="/signup">Signup</router-link></li>
       <li v-if="!loginState.isLoggedIn"><router-link to="/login">Login</router-link></li>
       <li v-if="loginState.isLoggedIn">
+        <router-link to="/add-post">Add Post</router-link>
+      </li>
+      <li v-if="loginState.isLoggedIn">
         <button @click="logout" class="logout-btn">Logout</button>
       </li>
     </ul>
@@ -18,18 +21,17 @@ import { loginState, authService } from '@/services/authService';
 export default {
   computed: {
     loginState() {
-      return loginState; // Use reactive state
+      return loginState; // Use reactive state from authService
     },
   },
   methods: {
     logout() {
-      authService.logout(); // Perform logout
+      authService.logout(); // Clear token and update state
       this.$router.push('/login'); // Redirect to login page
     },
   },
 };
 </script>
-
 
 <style scoped>
 .header {

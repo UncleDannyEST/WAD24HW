@@ -1,26 +1,16 @@
 <template>
-  <div class="signup-page">
-    <div class="form-container">
-      <h2>Sign Up</h2>
-      <form @submit.prevent="signup">
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input id="email" type="email" placeholder="Enter your email" v-model="email" required />
-        </div>
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input id="password" type="password" placeholder="Enter your password" v-model="password" required />
-          <small>Password must be at least 6 characters long.</small>
-        </div>
-        <button type="submit" class="btn-primary">Sign Up</button>
-      </form>
-    </div>
+  <div class="form-page">
+    <h1>Sign Up</h1>
+    <form @submit.prevent="signUp">
+      <input v-model="email" type="email" placeholder="Email" required />
+      <input v-model="password" type="password" placeholder="Password" required />
+      <button type="submit" class="btn-primary">Sign Up</button>
+      <button @click="cancel" type="button" class="btn-secondary">Cancel</button>
+    </form>
   </div>
 </template>
 
 <script>
-import { authService } from '@/services/authService';
-
 export default {
   data() {
     return {
@@ -29,66 +19,80 @@ export default {
     };
   },
   methods: {
-    signup() {
+    async signUp() {
       try {
-        authService.register(this.email, this.password);
-        alert('Account created successfully! You can now log in.');
-        this.$router.push('/login'); // Redirect to login page
+        const response = await fetch('http://localhost:3000/api/users/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: this.email, password: this.password }),
+        });
+
+        if (!response.ok) {
+          if (response.status === 409) {
+            throw new Error('Email already exists. Please use a different email.');
+          } else {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+        }
+
+        alert('Signup successful!');
+        this.$router.push('/login');
       } catch (error) {
-        alert(error.message); // Display error message
+        console.error('Error signing up:', error);
+        alert(error.message); // Display the error to the user
       }
+    },
+    cancel() {
+      this.$router.push('/'); // Redirect to home page
     },
   },
 };
 </script>
 
-
 <style scoped>
-.signup-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #f4f4f9;
-}
-.form-container {
-  background-color: white;
-  padding: 30px;
+.form-page {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 400px;
+  background-color: #f9f9f9;
   text-align: center;
 }
-h2 {
-  margin-bottom: 10px;
-  color: #1a73e8;
-}
-.form-group {
-  margin-bottom: 15px;
-  text-align: left;
-}
+
 input {
   width: 100%;
+  margin-bottom: 15px;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
-small {
-  display: block;
-  margin-top: 5px;
-  font-size: 0.85em;
-  color: #777;
-}
+
 .btn-primary {
-  background-color: #1a73e8;
+  background-color: #1a73e8; /* Blue */
   color: white;
+  padding: 10px 20px;
   border: none;
-  padding: 10px 15px;
   border-radius: 5px;
   cursor: pointer;
-  width: 100%;
 }
+
 .btn-primary:hover {
-  background-color: #155cbc;
+  background-color: #1664c0;
+}
+
+.btn-secondary {
+  background-color: gray;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 3px;
+
+}
+
+.btn-secondary:hover {
+  background-color: #555;
 }
 </style>

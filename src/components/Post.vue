@@ -1,35 +1,42 @@
 <template>
-  <div class="post">
-    <h3>{{ post.author }}</h3>
-    <p>{{ post.text }}</p>
-    <img v-if="post.image_link" :src="post.image_link" alt="Post Image" />
-    <p>Likes: {{ post.likes || 0 }}</p>
-    <p class="post-date">Posted on: {{ formattedDate }}</p>
-    <img 
-      src="thumbsup.jpg" 
-      alt="Like"
-      @click="likePost"
-      class="like-button"
-    />
+  <div>
+    <h1>Posts</h1>
+    <div v-for="post in posts" :key="post.id">
+      <h3>{{ post.author }}</h3>
+      <p>{{ post.text }}</p>
+      <p>Likes: {{ post.likes }}</p>
+      <button @click="likePost(post.id)">Like</button>
+    </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-  props: ['post'],
-  computed: {
-    formattedDate() {
-      const date = new Date(this.post.creation_date);
-      return date.toLocaleDateString();
-    },
+  data() {
+    return {
+      posts: [],
+    };
   },
   methods: {
-    likePost() {
-      this.post.likes = (this.post.likes || 0) + 1;
+    async fetchPosts() {
+      const response = await axios.get('http://localhost:3000/api/posts');
+      this.posts = response.data;
     },
+    async likePost(postId) {
+      await axios.put(`http://localhost:3000/api/posts/${postId}/like`);
+      this.fetchPosts(); // Reload posts after liking
+    },
+  },
+  mounted() {
+    this.fetchPosts();
   },
 };
 </script>
+
+
+
 
 <style>
 .post {

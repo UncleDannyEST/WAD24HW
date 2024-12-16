@@ -1,26 +1,26 @@
 <template>
   <div class="login-page">
-    <div class="form-container">
-      <h2>Welcome Back</h2>
-      <form @submit.prevent="handleLogin">
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input id="email" type="email" placeholder="Enter your email" v-model="email" required />
-        </div>
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input id="password" type="password" placeholder="Enter your password" v-model="password" required />
-        </div>
-        <button type="submit" class="btn-primary">Login</button>
-      </form>
-      <button @click="$router.push('/signup')" class="btn-secondary">Go to Signup</button>
-    </div>
+    <h1>Login</h1>
+    <form @submit.prevent="login">
+      <input 
+        v-model="email" 
+        type="email" 
+        placeholder="Email" 
+        required 
+      />
+      <input 
+        v-model="password" 
+        type="password" 
+        placeholder="Password" 
+        required 
+      />
+      <button type="submit" class="btn-login">Login</button>
+      <button @click="goToSignup" class="btn-signup">Sign Up</button>
+    </form>
   </div>
 </template>
 
 <script>
-import { authService } from '@/services/authService';
-
 export default {
   data() {
     return {
@@ -29,14 +29,34 @@ export default {
     };
   },
   methods: {
-    handleLogin() {
+    async login() {
       try {
-        authService.login(this.email, this.password);
+        const response = await fetch('http://localhost:3000/api/users/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: this.email,
+            password: this.password,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        localStorage.setItem('token', data.token);
         alert('Login successful!');
-        this.$router.push('/'); // Redirect to main page
+        this.$router.push('/');
       } catch (error) {
-        alert(error.message); // Display error message
+        console.error('Error logging in:', error);
+        alert('Failed to log in. Please check your credentials.');
       }
+    },
+    goToSignup() {
+      this.$router.push('/signup'); // Redirect to the signup page
     },
   },
 };
@@ -44,37 +64,30 @@ export default {
 
 <style scoped>
 .login-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background-color: #f4f4f9;
-}
-
-.form-container {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 400px;
+  max-width: 600px;
+  margin: 20px auto;
   text-align: center;
-}
-
-.form-group {
-  margin-bottom: 15px;
-  text-align: left;
 }
 
 input {
   width: 100%;
+  margin-bottom: 10px;
   padding: 10px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   border-radius: 5px;
 }
 
-.btn-primary {
+.btn-login {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.btn-signup {
   background-color: #1a73e8;
   color: white;
   padding: 10px 20px;
@@ -83,26 +96,11 @@ input {
   cursor: pointer;
 }
 
-.btn-primary:hover {
-  background-color: #155db2;
+.btn-login:hover {
+  background-color: #45a049;
 }
 
-.btn-secondary {
-  background-color: gray;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  margin-top: 10px;
-  cursor: pointer;
-}
-
-.btn-secondary:hover {
-  background-color: darkgray;
-}
-
-.error {
-  color: red;
-  margin-top: 10px;
+.btn-signup:hover {
+  background-color: #0057b7;
 }
 </style>

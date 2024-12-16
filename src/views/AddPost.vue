@@ -2,9 +2,22 @@
   <div class="add-post-page">
     <h1>Add New Post</h1>
     <form @submit.prevent="addPost">
-      <input v-model="newPost.author" placeholder="Author" required />
-      <textarea v-model="newPost.text" placeholder="Post Content" required></textarea>
-      <input v-model="newPost.image_link" placeholder="Image URL (optional)" />
+      <input 
+        v-model="newPost.author" 
+        type="text" 
+        placeholder="Author" 
+        required 
+      />
+      <textarea 
+        v-model="newPost.text" 
+        placeholder="Post Content" 
+        required
+      ></textarea>
+      <input 
+        v-model="newPost.image_link" 
+        type="text" 
+        placeholder="Image URL (optional)"
+      />
       <button type="submit" class="btn-save">Add Post</button>
       <button @click="cancel" class="btn-cancel">Cancel</button>
     </form>
@@ -19,28 +32,33 @@ export default {
         author: '',
         text: '',
         image_link: '',
-        creation_date: '',
-        likes: 0,
       },
     };
   },
   methods: {
-    addPost() {
-      if (!this.newPost.author || !this.newPost.text) {
-        alert('Author and content are required!');
-        return;
+    async addPost() {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await fetch('http://localhost:3000/api/posts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify(this.newPost),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const addedPost = await response.json();
+        console.log('Post added:', addedPost);
+        this.$router.push('/'); // Redirect to the main page
+      } catch (error) {
+        console.error('Error adding post:', error);
+        alert(error.message);
       }
-      const allPosts = JSON.parse(localStorage.getItem('posts') || '[]');
-      const newPost = {
-        ...this.newPost,
-        id: allPosts.length + 1,
-        creation_date: new Date().toISOString().split('T')[0], // Current date
-        likes: 0,
-      };
-      allPosts.push(newPost); // Add new post
-      localStorage.setItem('posts', JSON.stringify(allPosts)); // Save to localStorage
-      alert('Post added successfully!');
-      this.$router.push('/'); // Redirect to main page
     },
     cancel() {
       this.$router.push('/'); // Redirect to main page
@@ -48,6 +66,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .add-post-page {

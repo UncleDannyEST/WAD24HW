@@ -29,91 +29,100 @@
     <div v-else>
       <p>You must be logged in to view and manage posts.</p>
     </div>
-
     <div v-if="isLoggedIn" class="actions">
       <button @click="logout" class="btn-secondary">Logout</button>
-      <button @click="deleteAllPosts" class="btn-delete-all">Delete All Posts</button>
       <button @click="goToAddPost" class="btn-add-post">Add New Post</button>
+      <button @click="deleteAllPosts" class="btn-delete-all">Delete All Posts</button>
     </div>
   </div>
 </template>
 
 <script>
-import { authService, loginState } from '@/services/authService';
-
 export default {
   data() {
     return {
-      posts: [], // Posts loaded from localStorage
+      posts: [],
+      isLoggedIn: false,
     };
   },
   computed: {
-    isLoggedIn() {
-      return loginState.isLoggedIn;
-    },
     sortedPosts() {
-      // Sort posts by creation date (newest first)
       return this.posts.slice().sort((a, b) => new Date(b.creation_date) - new Date(a.creation_date));
     },
   },
   created() {
+    this.checkLoginStatus();
     if (this.isLoggedIn) {
       this.loadPosts();
     }
   },
   methods: {
-    loadPosts() {
-      const storedPosts = JSON.parse(localStorage.getItem('posts') || '[]');
-      if (storedPosts.length > 0) {
-        this.posts = storedPosts;
-      } else {
-        fetch('/data.json')
-          .then((response) => response.json())
-          .then((data) => {
-            this.posts = data.map((post, index) => ({
-              ...post,
-              id: index + 1, // Assign unique IDs
-              likes: post.likes || 0,
-            }));
-            localStorage.setItem('posts', JSON.stringify(this.posts));
-          })
-          .catch((error) => console.error('Error loading posts:', error.message));
+    checkLoginStatus() {
+      this.isLoggedIn = !!localStorage.getItem('token');
+    },
+    async loadPosts() {
+      try {
+        const response = await fetch('http://localhost:3000/api/posts', {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        this.posts = await response.json();
+      } catch (error) {
+        console.error('Error loading posts:', error);
+        alert('Session expired. Please log in again.');
+        this.logout();
       }
-      console.log('Posts loaded:', this.posts); // Debugging
     },
     logout() {
-      authService.logout();
+      localStorage.removeItem('token');
       alert('You have been logged out.');
       this.$router.push('/login');
     },
-    goToPostDetails(postId) {
-      console.log('Navigating to post with ID:', postId); // Debugging
-      const post = this.posts.find((p) => p.id === postId);
-      if (post) {
-        this.$router.push(`/post/${postId}`); // Navigate to PostDetails page
-      } else {
-        alert('Post not found!');
-      }
-    },
     goToAddPost() {
-      this.$router.push('/add-post'); // Navigate to AddPost page
+      this.$router.push('/add-post');
+    },
+    goToPostDetails(postId) {
+      console.log(`Navigating to post with ID: ${postId}`);
+      this.$router.push(`/post/${postId}`);
     },
     likePost(postId) {
-      console.log('Liking post with ID:', postId); // Debugging
-      const post = this.posts.find((p) => p.id === postId); // Find post by ID
-      if (post) {
-        post.likes += 1; // Increment likes
-        localStorage.setItem('posts', JSON.stringify(this.posts)); // Save updated posts
-        console.log(`Updated likes for post ${postId}: ${post.likes}`); // Debugging
-      } else {
-        alert('Post not found for liking!');
-      }
+      fetch(`http://localhost:3000/api/posts/${postId}/like`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(updatedPost => {
+          this.posts = this.posts.map(post => (post.id === updatedPost.id ? updatedPost : post));
+        })
+        .catch(error => {
+          console.error('Error liking post:', error);
+        });
     },
-    deleteAllPosts() {
-      if (confirm('Are you sure you want to delete all posts? This action cannot be undone.')) {
-        this.posts = [];
-        localStorage.setItem('posts', JSON.stringify(this.posts));
-        alert('All posts have been deleted.');
+    async deleteAllPosts() {
+      try {
+        const response = await fetch('http://localhost:3000/api/posts', {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        this.posts = []; // Clear posts locally
+        alert('All posts deleted successfully.');
+      } catch (error) {
+        console.error('Error deleting posts:', error);
       }
     },
     formattedDate(date) {
@@ -181,13 +190,14 @@ input {
 
 .btn-like,
 .btn-secondary,
-.btn-delete-all,
-.btn-add-post {
+.btn-add-post,
+.btn-delete-all {
   margin: 5px;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 16px; /* Ensure consistent size */
 }
 
 .btn-like {
@@ -200,20 +210,20 @@ input {
   color: white;
 }
 
-.btn-delete-all {
-  background-color: #f44336;
-  color: white;
-}
-
 .btn-add-post {
   background-color: #1a73e8;
   color: white;
 }
 
+.btn-delete-all {
+  background-color: #f44336; /* Red for destructive action */
+  color: white;
+}
+
 .btn-like:hover,
 .btn-secondary:hover,
-.btn-delete-all:hover,
-.btn-add-post:hover {
+.btn-add-post:hover,
+.btn-delete-all:hover {
   opacity: 0.8;
 }
 </style>
