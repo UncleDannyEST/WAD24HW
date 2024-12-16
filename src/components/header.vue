@@ -3,12 +3,12 @@
     <ul class="nav-links">
       <li><router-link to="/">Home</router-link></li>
       <li><router-link to="/contact">Contact</router-link></li>
-      <li v-if="!loginState.isLoggedIn"><router-link to="/signup">Signup</router-link></li>
-      <li v-if="!loginState.isLoggedIn"><router-link to="/login">Login</router-link></li>
-      <li v-if="loginState.isLoggedIn">
+      <li v-if="!isLoggedIn"><router-link to="/signup">Signup</router-link></li>
+      <li v-if="!isLoggedIn"><router-link to="/login">Login</router-link></li>
+      <li v-if="isLoggedIn">
         <router-link to="/add-post">Add Post</router-link>
       </li>
-      <li v-if="loginState.isLoggedIn">
+      <li v-if="isLoggedIn">
         <button @click="logout" class="logout-btn">Logout</button>
       </li>
     </ul>
@@ -16,19 +16,34 @@
 </template>
 
 <script>
-import { loginState, authService } from '@/services/authService';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 export default {
-  computed: {
-    loginState() {
-      return loginState; // Use reactive state from authService
-    },
-  },
-  methods: {
-    logout() {
-      authService.logout(); // Clear token and update state
-      this.$router.push('/login'); // Redirect to login page
-    },
+  setup() {
+    const store = useStore(); // Access Vuex store
+    const router = useRouter(); // Access Vue Router for navigation
+
+    // Computed properties from Vuex store
+    const isLoggedIn = computed(() => store.getters.isAuthenticated); 
+    const user = computed(() => store.getters.currentUser);
+
+    // Handle user logout
+    const logout = async () => {
+      try {
+        await store.dispatch('logout'); // Trigger logout action in Vuex store
+        router.push('/login'); // Redirect to login page
+      } catch (error) {
+        console.error('Logout failed:', error);
+      }
+    };
+
+    return {
+      isLoggedIn,
+      user,
+      logout,
+    };
   },
 };
 </script>
