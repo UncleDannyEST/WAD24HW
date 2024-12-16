@@ -21,6 +21,9 @@
 </template>
 
 <script>
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
 export default {
   data() {
     return {
@@ -47,9 +50,13 @@ export default {
         }
 
         const data = await response.json();
-        localStorage.setItem('token', data.token);
+        
+        // Store token and user in Vuex
+        this.$store.commit('setToken', data.token);
+        this.$store.commit('setUser', data.user); // Assuming `data.user` is returned from the server
+        
         alert('Login successful!');
-        this.$router.push('/');
+        this.$router.push('/'); // Redirect to home
       } catch (error) {
         console.error('Error logging in:', error);
         alert('Failed to log in. Please check your credentials.');
